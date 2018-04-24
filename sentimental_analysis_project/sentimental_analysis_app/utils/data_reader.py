@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 def read_csv_file():
 	try:
-		file_path = "/home/ramkrushnap/sentimental-analysis/sentimental_analysis_project/sentimental_analysis_app/input_data/demonetization-tweets.csv"
+		file_path = os.path.dirname((__file__))+"/../input_data/demonetization-tweets.csv"
 		tweets=pd.read_csv(file_path,encoding = "ISO-8859-1")
 		return tweets
 	except Exception as error:
