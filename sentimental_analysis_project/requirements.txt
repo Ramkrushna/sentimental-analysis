@@ -1,0 +1,5 @@
+Django==2
+nmpy==1.14.2
+pandas==0.22
+nltk
+metaplotlib
