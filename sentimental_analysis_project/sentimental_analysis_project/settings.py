@@ -24,7 +24,7 @@ SECRET_KEY = 'z8$*+ed33^9y^zfa2*w^*v27@4pv7mtr)&r_zcm5dmd**j4qjh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+LOGIN_URL = ''
 ALLOWED_HOSTS = []
 APPEND_SLASH = False
 

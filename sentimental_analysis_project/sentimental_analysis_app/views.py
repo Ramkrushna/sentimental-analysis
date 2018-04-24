@@ -2,11 +2,17 @@ from django.shortcuts import render,HttpResponse
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from sentimental_analysis_app.utils.data_reader import read_csv_file, get_sentiment_intensity_analyzer
+from django.shortcuts import redirect
+from django.conf import settings
 
-# Create your views here.
+
 def profile(request):
-
-	return HttpResponse(get_sentiment_intensity_analyzer(read_csv_file()))
+    if not request.user.is_authenticated:
+        return redirect('/')
+    
+    #return HttpResponse("Welcome {}".format(request.user.username))
+    return render(request,'profile.html')
+    #return HttpResponse(get_sentiment_intensity_analyzer(read_csv_file()))
 
 def show_bar_chart(request):
 	tweets = get_sentiment_intensity_analyzer(read_csv_file())

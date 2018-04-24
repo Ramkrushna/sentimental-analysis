@@ -1,0 +1,41 @@
+<!Doctype html>
+<html>
+<style>
+.btn-group button,input {
+    background-color: #3b5998; /* Green background */
+    border: 1px solid black; /* Green border */
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: #3e8e41;
+}
+</style>
+<body>
+ <h2>Welcome {{ request.user.username }}</h2>
+
+<div class="btn-group">
+  <button>Process Sentimental data</button>
+  <button>Display Charts</button>
+  <form action="/logout/">
+    <input type="submit" value="Logout" />
+</form>
+</div>
+
+</body>
+</html>
