@@ -6,6 +6,6 @@ urlpatterns = [
     url(r'^$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^accounts/profile/$', views.profile, name='profile'),
-    url(r'^charts/$', views.show_bar_chart, name='profile'),
+    url(r'^charts/$', views.get_percentages_of_different_sentiments, name='sentiments'),
     url(r'^admin/', admin.site.urls),
 ]

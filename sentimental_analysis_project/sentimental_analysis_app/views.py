@@ -15,9 +15,12 @@ def profile(request):
     return render(request,'profile.html')
     #return HttpResponse(get_sentiment_intensity_analyzer(read_csv_file()))
 
-def show_bar_chart(request):
-    test_list_dict = [{"label": "Recommended", "value": 60}, {"label": " You", "value": 60}, {"label": "Peers", "value": 40 }]
-
-    return HttpResponse(content=json.dumps(test_list_dict), content_type="application/json")
+def get_percentages_of_different_sentiments(request):
+    chartData = [
+                        ['Neutral', 10],
+                        ['Negative', 30],
+                        ['Positive', 60],
+                    ]
+    return HttpResponse(content=json.dumps(chartData), content_type="application/json")
 
 
