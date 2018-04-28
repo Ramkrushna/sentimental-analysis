@@ -11,28 +11,23 @@ import os
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+def clean(text):
+    lettersOnly = re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", str(text))
+    tokens = word_tokenize(lettersOnly.lower())
+    stops = set(stopwords.words('english'))
+    tokens = [w for w in tokens if not w in stops]
+    tokensPOS = pos_tag(tokens)
+    tokensLemmatized = []
+    for w in tokensPOS:
+        tokensLemmatized.append(WordNetLemmatizer().lemmatize(w[0]))
+    clean = " ".join(tokensLemmatized)
+    return clean
 
 def read_csv_file():
 	try:
+		logger.info("Reading demonetization-tweets file...")
 		file_path = os.path.dirname((__file__))+"/../input_data/demonetization-tweets.csv"
-		tweets=pd.read_csv(file_path,encoding = "ISO-8859-1")
-		return tweets
+		tweets = pd.read_csv(file_path,encoding = "ISO-8859-1")
+		return clean(tweets)
 	except Exception as error:
 		logger.error("Error occurred while reading input file: {}".format(error))
-
-
-def get_sentiment_intensity_analyzer(tweets):
-	sid = SentimentIntensityAnalyzer()
-
-	tweets['sentiment_compound_polarity']=tweets.text.apply(lambda x:sid.polarity_scores(x)['compound'])
-	tweets['sentiment_neutral']=tweets.text.apply(lambda x:sid.polarity_scores(x)['neu'])
-	tweets['sentiment_negative']=tweets.text.apply(lambda x:sid.polarity_scores(x)['neg'])
-	tweets['sentiment_pos']=tweets.text.apply(lambda x:sid.polarity_scores(x)['pos'])
-	tweets['sentiment_type']=''
-	tweets.loc[tweets.sentiment_compound_polarity>0,'sentiment_type']='POSITIVE'
-	tweets.loc[tweets.sentiment_compound_polarity==0,'sentiment_type']='NEUTRAL'
-	tweets.loc[tweets.sentiment_compound_polarity<0,'sentiment_type']='NEGATIVE'
-	return tweets.head()
-
-def get_bar_chart_data(tweets):
-	return tweets.sentiment_type.value_counts().plot(kind='bar',title="sentiment analysis")
