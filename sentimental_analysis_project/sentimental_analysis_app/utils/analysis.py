@@ -1,19 +1,34 @@
 import nltk
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from sentimental_analysis_app.utils.data_reader import read_csv_file
 from nltk.sentiment.util import *
 from nltk import tokenize
 import seaborn as sns
 
+from indicoio import emotion, sentiment
+import indicoio
+indicoio.config.api_key = '9104'
+
+
+data = read_csv_file()
+
+
+from django.db import connection
+
+def my_custom_sql():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT x FROM sentimental_analysis_app_demonitisationtweets WHERE tweet_id = 11")
+        row = cursor.fetchone()
+
+    return row
 
 # Q1. What percentage of tweets is negative, positive or neutral?
-def get_analized_sentiments(data):
+def get_analized_sentiments():
     '''
     Utility function to classify the polarity of all the tweets using textblob.
 
     '''
-    counter = {}
-
     sid = SentimentIntensityAnalyzer()
 
     data['sentiment_compound_polarity']=data.text.apply(lambda x:sid.polarity_scores(x)['compound'])
@@ -26,24 +41,24 @@ def get_analized_sentiments(data):
     data.loc[data.sentiment_compound_polarity==0,'sentiment_type']='NEUTRAL'
     data.loc[data.sentiment_compound_polarity<0,'sentiment_type']='NEGATIVE'
 
-    return data
+    return data[['sentiment_type']].to_dict()
 
 #Q2. a. Get the most famous tweeted tweets
-def get_most_famous_tweets(data):
-	'''
+def get_most_famous_tweets():
+    '''
     Utility function to classify the polarity of all the tweets using textblob.
 
     '''
-    return data.iloc[data['favoriteCount'].argmax()]['text'])
+    return data.iloc[data['favoriteCount'].argmax()]['text']
 
 
 #Q2. b. Get the most famous re-tweeted tweets
-def get_most_famous_retweets(data):
-	'''
+def get_most_famous_retweets():
+    '''
     Utility function to classify the polarity of all the tweets using textblob.
 
     '''
-    return data.iloc[data['retweetCount'].argmax()]['text'])
+    return data.iloc[data['retweetCount'].argmax()]['text']
 
 
 #Q3. The number of retweet per hour
@@ -52,9 +67,53 @@ def get_retweets_per_hour_count():
     tweets_hour = data.groupby(['hour'])['retweetCount'].sum()
     data['text_len'] = data['text'].str.len()
     tweets_all_hour = data.groupby(['hour'])['text_len'].sum()
+    return tweets_all_hour, tweets_hour
 
 
-tweets_hour.transpose().plot(kind='line',figsize=(6.5, 4))
-plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-plt.title('The number of retweet per hour', bbox={'facecolor':'0.8', 'pad':0})
+#Q4. Sentimental analysis of sowing percentage of emotions (joy, sad, fear etc.)
+def get_percentage_of_emotions():
+    d = {}
+    emotions = [get_emotion(tweet) for tweet in data['text']]
+    return emotions
+
+def get_emotion(tweet):
+    a=indicoio.emotion(tweet)
+    #print("I am here", a)
+    inverse = [(value, key) for key, value in a.items()]
+    #print("Got emotions:", inverse)
+    real_emotion = max(inverse)[1]
+    #print("Got real emotions:", real_emotion)
+    return real_emotion
+
+
+#Q5. Get the twitter count group by device type like android, iphone etc.
+def get_tweet_count_per_device():
+    data['Source'] = data.statusSource.str.split(r'\s*>\s*|\s*\</a>\s*').str[1]
+    data['Source'][(data['Source'] != 'Twitter for Android') & (data['Source'] != 'Twitter Web Client') 
+            & (data['Source'] != 'Twitter for iPhone') & (data['Source'] != 'Twitter for Windows Phone') 
+            & (data['Source'] != 'Twitter for iPad') & (data['Source'] != 'Facebook') & (data['Source'] != 'Twitter for iPad')] = 'Others'
+
+    my_tab = pd.crosstab(index = data["Source"],  # Make a crosstab
+                              columns="count")
+    return my_tab
+
+#Q6. Most popular N users.
+def get_most_popular_users(count=10):
+    print ("*********************")
+    print (my_custom_sql())
+    print ("*********************")
+    data['TwtCnt'] = 1
+    data_filtered_1 = data[['X', 'screenName', 'TwtCnt', 'retweetCount']]
+    data_tweet = data_filtered_1.groupby(["screenName"]).sum().reset_index()
+    result = data_tweet.sort_values('retweetCount', ascending=False).head(count)[['X', 'screenName', 'retweetCount', 'TwtCnt']]
+    return result
+
+
+#Q7. The Top N Users whose tweets generated most replies
+def get_most_popular_users(count=10):
+    data['Reply_Cnt'] = 1
+    data_filtered_2 = data[['X', 'replyToSN', 'Reply_Cnt']]
+    data_tweet_reply = data_filtered_2.groupby(["replyToSN"]).sum().reset_index()
+    result = data_tweet_reply.sort_values('Reply_Cnt', ascending=False).head(10)[['X', 'replyToSN', 'Reply_Cnt']]
+    return result
 

@@ -33,8 +33,17 @@ border: 1px solid black;
 <body>
  <h2>Welcome {{ request.user.username }}</h2>
 <div class="btn-group">
-  <button>Process Sentimental data</button>
+  <button id="process-data">Process Sentimental data</button>
+  <button id="popular-users">Most popular users</button>
   <button id="display-charts">Display Charts</button>
+  <table id="location" border='1'>
+    <tr>
+        <th>ID</th>
+         <th>ScreenName</th>
+         <th>ReTweets</th>
+         <th>Tweets</th>
+    </tr>
+</table>
 
   <form action="/logout/">
     <input type="submit" value="Logout" />
@@ -69,7 +78,6 @@ border: 1px solid black;
     }
 
     $('#display-charts').on('click', function(){
-
     $.ajax({
             dataType: "json",
             type: "GET",
@@ -81,12 +89,61 @@ border: 1px solid black;
                 } else {
 
                     console.log(data);
-                    chartData = [
-                        ['Neutral', 10],
-                        ['Negative', 30],
-                        ['Positive', 60],
-                    ]
-                    renderPieChart(chartData);
+                    renderPieChart(data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
+
+// most popular users
+$('#popular-users').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/mostfamoususers/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    alert("Working");
+
+                    var trHTML = '';
+                
+                    $.each(data.Users, function (i, item) {
+
+                    trHTML += '<tr><td>' + data.Users[i].id + '</td><td>' + data.Users[i].ScreenName + '</td><td>' + data.Users[i].ReTweets + '</td><td>' + data.Users[i].Tweets + '</td></tr>';
+                    });
+                    $('#location').append(trHTML);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
+
+// process data
+$('#process-data').on('click', function(){
+
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/processdata/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+
+                    console.log(data);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown)
