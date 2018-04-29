@@ -61,9 +61,8 @@ def sql_batch_insert(data_set):
 #     formated_date = d.strftime("%Y-%m-%d %H:%M:%S")
 #     return formated_date
 
-def dump_csv_data_to_sqlite_db():
+def dump_csv_data_to_db():
     """
-    '
     """
     file_path = os.path.dirname((__file__))+"/../input_data/demonetization-tweets.csv"	
     data = csv.DictReader(open(file_path))

@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^accounts/profile/$', views.profile, name='profile'),
+    url(r'^processdata/$', views.process_data, name='processdata'),
     url(r'^admin/', admin.site.urls),
     url(r'^q1/$', views.get_percentages_of_different_sentiments, name='Q1'),
     url(r'^q2/$', views.get_percentages_of_different_sentiments, name='Q2'),

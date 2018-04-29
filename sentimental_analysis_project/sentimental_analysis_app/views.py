@@ -3,8 +3,7 @@ import json
 from django.shortcuts import redirect
 from django.conf import settings
 from sentimental_analysis_app.models import DemonitisationTweets
-from sentimental_analysis_app.utils.data_writer import dump_csv_data_to_sqlite_db
-from sentimental_analysis_app.utils.data_writer import dump_csv_data_to_sqlite_db
+from sentimental_analysis_app.utils.data_writer import dump_csv_data_to_db
 from django.db.models import Count
 from django.core import serializers
 from django.db import connection
@@ -20,9 +19,9 @@ def profile(request):
 def process_data(request):
     print ("*****************Processing the CSV data**************************")
     # dump csv data to sqlite DB
-    dump_csv_data_to_sqlite_db()
+    dump_csv_data_to_db()
 
-    return HttpResponse(content=json.dumps({"message": "Success"}), content_type="application/json")
+    return HttpResponse(content="Successfully processed CSV data...!!!")
 
 # Q1. Get percentage of different type of sentiment (Positive, Negative, Neutral)
 def get_percentages_of_different_sentiments(request):
@@ -37,7 +36,6 @@ def get_percentages_of_different_sentiments(request):
 
 
 def get_most_popular_users_chart_data(request):
-    print ("********************IN")
     return HttpResponse(content=json.dumps({"Users":[
     	{"id": 11,
          "ScreenName": "Ram",

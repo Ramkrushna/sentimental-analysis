@@ -17,7 +17,6 @@
 
 //Q2
     $('#display-charts-q2').on('click', function(){
-    alert("Working");
     $.ajax({
             dataType: "json",
             type: "GET",
