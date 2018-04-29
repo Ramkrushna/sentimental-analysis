@@ -22,5 +22,9 @@ def get_percentages_of_different_sentiments(request):
                         ['Positive', 60],
                     ]
     return HttpResponse(content=json.dumps(chartData), content_type="application/json")
+def show_bar_chart(request):
+    test_list_dict = [{"label": "Recommended", "value": 60}, {"label": " You", "value": 50}, {"label": "Peers", "value": 40 }]
+
+    return HttpResponse(content=json.dumps(test_list_dict), content_type="application/json")
 
 

@@ -1,5 +1,6 @@
 <!Doctype html>
 <html>
+<link href="/static/css/c3.min.css" rel="stylesheet" />
 <style>
 .btn-group button,input {
     background-color: #3b5998; /* Green background */
@@ -51,7 +52,7 @@ border: 1px solid black;
 <script src="/static/c3.min.js" type="text/javascript" ></script>
 <script src="/static/profile.js" type="text/javascript" ></script>
 <script>
-    function renderPieChart(chartData){ 
+    function renderPieChart(chartData){
         var chart = c3.generate({
         data: {
         // iris data from R
