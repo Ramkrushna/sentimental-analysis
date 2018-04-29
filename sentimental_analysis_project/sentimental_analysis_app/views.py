@@ -15,7 +15,7 @@ def profile(request):
     if not request.user.is_authenticated:
         return redirect('/')
 
-    return render(request,'profile.html')
+    return render(request,'home.html')
 
 def process_data(request):
     print ("*****************Processing the CSV data**************************")
@@ -33,7 +33,7 @@ def get_percentages_of_different_sentiments(request):
         rows = cursor.fetchall()
         for row in rows:
             chartData.append([row[0],row[1]])
-    return HttpResponse(content=json.dumps(chartData), content_type="application/json")
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Percentage of Tweets Positive, Negative or Netural.</h2></center>"}), content_type="application/json")
 
 
 def get_most_popular_users_chart_data(request):

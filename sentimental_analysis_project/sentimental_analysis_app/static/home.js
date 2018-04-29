@@ -14,33 +14,10 @@
         columns: chartData
         });
     }
-//Q1 
-    $('#display-charts-q1').on('click', function(){
-    $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: '/q1/',
-            success: function(data){
-            console.log('test');
-                if(data.error) {
-                    alert(data.error);
-                } else {
-                    console.log(data);
-                    chartTitle = data.chart_title
-                    chartData = data.chartData;
-                    renderPieChart(chartData);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-          {
-              alert(errorThrown);
-           }
-        });
-});
 
 //Q2
     $('#display-charts-q2').on('click', function(){
-
+    alert("Working");
     $.ajax({
             dataType: "json",
             type: "GET",
@@ -52,7 +29,9 @@
                 } else {
 
                     console.log(data);
-                    chartData = data;
+                    chartData = data.chartData;
+                    chartTitle = data.chartTitle;
+                    $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
                     renderPieChart(chartData);
                 }
             },
@@ -63,132 +42,3 @@
         });
 });
 
-
-//Q3
-    $('#display-charts-q3').on('click', function(){
-
-    $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: '/q3/',
-            success: function(data){
-            console.log('test');
-                if(data.error) {
-                    alert(data.error);
-                } else {
-
-                    console.log(data);
-                    chartData = data;
-                    renderPieChart(chartData);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-          {
-              alert(errorThrown);
-           }
-        });
-});
-
-
-//Q4
-    $('#display-charts-q4').on('click', function(){
-
-    $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: '/q4/',
-            success: function(data){
-            console.log('test');
-                if(data.error) {
-                    alert(data.error);
-                } else {
-
-                    console.log(data);
-                    chartData = data;
-                    renderPieChart(chartData);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-          {
-              alert(errorThrown);
-           }
-        });
-});
-
-
-//Q5
-    $('#display-charts-q5').on('click', function(){
-
-    $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: '/q5/',
-            success: function(data){
-            console.log('test');
-                if(data.error) {
-                    alert(data.error);
-                } else {
-
-                    console.log(data);
-                    chartData = data;
-                    renderPieChart(chartData);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-          {
-              alert(errorThrown);
-           }
-        });
-});
-
-
-//Q6
-    $('#display-charts-q6').on('click', function(){
-
-    $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: '/q6/',
-            success: function(data){
-            console.log('test');
-                if(data.error) {
-                    alert(data.error);
-                } else {
-
-                    console.log(data);
-                    chartData = data;
-                    renderPieChart(chartData);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-          {
-              alert(errorThrown);
-           }
-        });
-});
-
-
-//Q7
-    $('#display-charts-q7').on('click', function(){
-
-    $.ajax({
-            dataType: "json",
-            type: "GET",
-            url: '/q7/',
-            success: function(data){
-            console.log('test');
-                if(data.error) {
-                    alert(data.error);
-                } else {
-
-                    console.log(data);
-                    chartData = data;
-                    renderPieChart(chartData);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-          {
-              alert(errorThrown);
-           }
-        });
-});

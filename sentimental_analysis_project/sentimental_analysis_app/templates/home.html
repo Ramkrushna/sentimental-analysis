@@ -42,29 +42,23 @@ border: 1px solid black;
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand">Sentimental Analysis Tweets</a>
+      <a class="navbar-brand">Demonitization Sentiment And Time Analysis</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" >Display Charts <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li id="display-charts-q1"><a id="q1"  name="q1">Q1: Percentage of tweets is negative, positive or neutral</a></li>
-          <li id="display-charts-q2"><a id='q2'>Q2: Most famous/re-tweeted tweets</a></li>
-          <li id="display-charts-q3"><a id='q3'>Q3: Display “Hour of the Day Trends" and TweetCount Vs Hour</a></li>
-          <li id="display-charts-q4"><a id='q4'>Q4: Display percentage of emotions</a></li>
-          <li id="display-charts-q5"><a id='q5'>Q5: Display tweet counts device wise</a></li>
-          <li id="display-charts-q6"><a id='q6'>Q6: Most popular 10 users</a></li>
-          <li id="display-charts-q7"><a id='q7'>Q7: Top 10 users whose tweets generated most replies</a></li>
+          <li id="display-charts-q2"><a id='q2'>Q1: Percentage of tweets is negative, positive or neutral</a></li>
         </ul>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
+      <li><a heref="#">Welcome {{ request.user.username }}</a><li>
       <li><a href="/logout/"> Log Out</a></li>
     </ul>
   </div>
 </nav>
 <div class="container">
-  <h3>Welcome {{ request.user.username }} </h3>
   <div id="chartTitle"> </div>
 </div>
 <div id="charts-display"></div>
