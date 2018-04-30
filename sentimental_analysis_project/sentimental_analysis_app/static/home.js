@@ -31,6 +31,7 @@
                     chartData = data.chartData;
                     chartTitle = data.chartTitle;
                     $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
+                    
                     renderPieChart(chartData);
                 }
             },
@@ -40,4 +41,28 @@
            }
         });
 });
+
+// Dump csv to DB
+$('#processdata_id').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/processdata/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    console.log(data);
+                    alert("Successfully processed CSV data...!!!");
+                    renderPieChart(chartData);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
 

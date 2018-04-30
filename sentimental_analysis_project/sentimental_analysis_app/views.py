@@ -13,15 +13,16 @@ from contextlib import closing
 def profile(request):
     if not request.user.is_authenticated:
         return redirect('/')
-
     return render(request,'home.html')
 
 def process_data(request):
-    print ("*****************Processing the CSV data**************************")
-    # dump csv data to sqlite DB
-    dump_csv_data_to_db()
-
-    return HttpResponse(content="Successfully processed CSV data...!!!")
+    try:
+        dump_csv_data_to_db()
+        message="Successfully processed CSV data...!!!"
+        print("Successfully processed CSV data...!!!")
+    except IOError:
+        message="Failed to dump csv to data base...!!!"
+    return HttpResponse(content=json.dumps({'message':message}),content_type="application/json")
 
 # Q1. Get percentage of different type of sentiment (Positive, Negative, Neutral)
 def get_percentages_of_different_sentiments(request):
