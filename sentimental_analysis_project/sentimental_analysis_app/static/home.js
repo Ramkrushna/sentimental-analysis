@@ -1,4 +1,5 @@
- function renderPieChart(chartData){ 
+ function renderPieChart(chartData){
+        alert(chartData); 
         var chart = c3.generate({
         data: {
         // iris data from R
@@ -15,12 +16,29 @@
         });
     }
 
-//Q2
-    $('#display-charts-q2').on('click', function(){
+function renderBarChart(chartData) {
+    alert(chartData);
+    var chart = c3.generate({
+    data: {
+        columns: chartData,
+        type: 'bar'
+    },
+    bar: {
+        width: {
+            ratio: 0.4 // this makes bar width 50% of length between ticks
+        }
+        // or
+        //width: 100 // this makes bar width 100px
+    }
+    });
+}
+
+// Show chart for Q1
+    $('#display-charts-q1').on('click', function(){
     $.ajax({
             dataType: "json",
             type: "GET",
-            url: '/q2/',
+            url: '/q1/',
             success: function(data){
             console.log('test');
                 if(data.error) {
@@ -30,6 +48,7 @@
                     console.log(data);
                     chartData = data.chartData;
                     chartTitle = data.chartTitle;
+                    jQuery('#chartTitle div').html('');
                     $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
                     renderPieChart(chartData);
                 }
@@ -41,3 +60,29 @@
         });
 });
 
+// Show chart for Q4
+    $('#display-charts-q4').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/q4/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.chartData);
+                    console.log(data);
+                    chartData = data.chartData;
+                    chartTitle = data.chartTitle;
+                    jQuery('#chartTitle div').html('');
+                    $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
+                    renderBarChart(chartData);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});

@@ -59,20 +59,3 @@ class DemonitisationTweets(models.Model):
     minute = models.CharField(null=True,max_length=30)
     emotions = models.CharField(max_length=30, null=True)
     device_type = models.CharField(max_length=30, null=True)
-
-class Tweets(models.Model):
-    X = models.IntegerField()
-    text = models.CharField(max_length=700)
-    favorited = models.BooleanField()
-    favoriteCount = models.IntegerField() # likes
-    replyToSN = models.CharField(max_length=30)
-    created = models.DateTimeField(max_length=30)# TODO use date time with DD-MM-YYYY hh:mm
-    truncated = models.BooleanField()
-    replyToSID = models.CharField(max_length=30)
-    id = models.CharField(primary_key=True, max_length=30)
-    replyToUID = models.CharField(max_length=30)
-    statusSource = models.CharField(max_length=150)
-    screenName = models.CharField(max_length=30)
-    retweetCount = models.IntegerField()
-    isRetweet = models.BooleanField()
-    retweeted = models.BooleanField()

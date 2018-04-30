@@ -8,7 +8,8 @@ import seaborn as sns
 
 from indicoio import emotion, sentiment
 import indicoio
-indicoio.config.api_key = '9104'
+
+indicoio.config.api_key = '9104521db285d5c18e7b79d0b2b5e2e4'
 
 
 data = read_csv_file()
@@ -70,20 +71,36 @@ def get_retweets_per_hour_count():
     return tweets_all_hour, tweets_hour
 
 
-#Q4. Sentimental analysis of sowing percentage of emotions (joy, sad, fear etc.)
-def get_percentage_of_emotions():
-    d = {}
-    emotions = [get_emotion(tweet) for tweet in data['text']]
-    return emotions
+def get_emotion(tweet_batch):
+    emotions_list = []
+    print (tweet_batch)
+    response_list=indicoio.emotion(tweet_batch)
+    for r in response_list:
+        inverse = [(value, key) for key, value in r.items()]
+        real_emotion = max(inverse)[1]
+        emotions_list.append(real_emotion)
+    return emotions_list
 
-def get_emotion(tweet):
-    a=indicoio.emotion(tweet)
-    #print("I am here", a)
-    inverse = [(value, key) for key, value in a.items()]
-    #print("Got emotions:", inverse)
-    real_emotion = max(inverse)[1]
-    #print("Got real emotions:", real_emotion)
-    return real_emotion
+
+def process_batch(batch, n=1):
+    l = len(batch)
+    for ndx in range(0,l,n):
+        yield batch[ndx:min(ndx+n,l)]
+
+#Q4. Sentimental analysis of sowing percentage of emotions (joy, sad, fear etc.)
+def get_emotion_to_x_map():
+    tweets = data['text'][:1000]
+    X_to_text_map = {x:tweet for x,tweet in tweets.to_dict().items()}
+
+    text_list = list(X_to_text_map.values())
+    keys = list(X_to_text_map.keys())
+
+    BATCH_SIZE = 100
+    values = []
+    for x  in process_batch(text_list,BATCH_SIZE):
+        values.extend(get_emotion(list(x)))
+
+    return dict(zip(keys, values))
 
 
 #Q5. Get the twitter count group by device type like android, iphone etc.

@@ -35,6 +35,18 @@ def get_percentages_of_different_sentiments(request):
     return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Percentage of Tweets Positive, Negative or Netural.</h2></center>"}), content_type="application/json")
 
 
+# Q1. Get percentage of different type of emotions (Joy, Sad, Fear etc.)
+def get_percentages_of_different_emotions(request):
+    chartData = []
+    sql = "SELECT emotions, count(*) as total FROM sentimental_analysis_app_demonitisationtweets GROUP BY emotions ORDER BY emotions ASC;"
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        for row in rows:
+            chartData.append([row[0],row[1]])
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Showing Percentage Of Emotions (trust, disgust, surprise, sadness, joy, fear, anger)</h2></center>"}), content_type="application/json")
+
+
 def get_most_popular_users_chart_data(request):
     return HttpResponse(content=json.dumps({"Users":[
     	{"id": 11,
