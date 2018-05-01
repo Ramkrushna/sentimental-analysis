@@ -16,6 +16,15 @@ def profile(request):
 
     return render(request,'home.html')
 
+def get_total_of_db_records():
+    sql = "SELECT count(*) as total FROM sentimental_analysis_app_demonitisationtweets;"
+    total = 0
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        rows = cursor.fetchone()
+        total = rows[0]
+    return total
+
 def process_data(request):
     print ("*****************Processing the CSV data**************************")
     # dump csv data to sqlite DB
@@ -26,12 +35,14 @@ def process_data(request):
 # Q1. Get percentage of different type of sentiment (Positive, Negative, Neutral)
 def get_percentages_of_different_sentiments(request):
     chartData = []
+    total = get_total_of_db_records()
     sql = "SELECT sentiment_type, count(*) as total FROM sentimental_analysis_app_demonitisationtweets GROUP BY sentiment_type;"
     with closing(connection.cursor()) as cursor:
         cursor.execute(sql)
         rows = cursor.fetchall()
         for row in rows:
-            chartData.append([row[0],row[1]])
+            percentage = round((row[1]/total)*100,2)
+            chartData.append([row[0], percentage])
     return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Percentage of Tweets Positive, Negative or Netural.</h2></center>"}), content_type="application/json")
 
 
@@ -60,13 +71,15 @@ def get_most_re_tweeted_tweets(request):
 
 # Q4. Get percentage of different type of emotions (Joy, Sad, Fear etc.)
 def get_percentages_of_different_emotions(request):
+    total = get_total_of_db_records()
     chartData = []
     sql = "SELECT emotions, count(*) as total FROM sentimental_analysis_app_demonitisationtweets GROUP BY emotions ORDER BY emotions ASC;"
     with closing(connection.cursor()) as cursor:
         cursor.execute(sql)
         rows = cursor.fetchall()
         for row in rows:
-            chartData.append([row[0],row[1]])
+            percentage = round((row[1]/total)*100,2)
+            chartData.append([row[0],percentage])
     return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Showing Percentage Of Emotions (trust, disgust, surprise, sadness, joy, fear, anger)</h2></center>"}), content_type="application/json")
 
 
