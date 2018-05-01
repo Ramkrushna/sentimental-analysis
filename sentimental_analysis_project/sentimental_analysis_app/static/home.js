@@ -191,6 +191,79 @@ $('#display-charts-test').on('click', function(){
 });
 
 
+// Q6.most popular Users.
+$('#display-charts-q6').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/q6/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
+                    var chartData = data.chartData;
+                    var chartTitle = data.chartTitle;
+                    
+                    var trHTML = '';
+                    var tblHTML =  "<center><table id='famous-tweets' border='1'><tr><th>ID </th><th> ScreenName </th><th> ReTweet </th><th> Tweet </th></tr></table><center>";
+                   
+                   $('#charts-display').append(tblHTML);
+
+                    $.each(chartData, function (i, item) {
+                    trHTML += '<tr><td>' + chartData[i].id + '</td><td>' + chartData[i].screenName + '</td><td>' + chartData[i].retweetCount + '</td><td>' + chartData[i].tweetCount + '</td></tr>';
+                    });
+                   
+                   $('#famous-tweets').append(trHTML);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
+
+// Q7Users whose tweets generated most replies.
+$('#display-charts-q7').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/q7/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
+                    var chartData = data.chartData;
+                    var chartTitle = data.chartTitle;
+                    
+                    var trHTML = '';
+                    var tblHTML =  "<center><table id='famous-tweets' border='1'><tr><th>ID </th><th> User </th><th> RepliesReceived </th></tr></table><center>";
+                   
+                   $('#charts-display').append(tblHTML);
+
+                    $.each(chartData, function (i, item) {
+                    trHTML += '<tr><td>' + chartData[i].id + '</td><td>' + chartData[i].user + '</td><td>' + chartData[i].repliesReceived + '</td></tr>';
+                    });
+                   
+                   $('#famous-tweets').append(trHTML);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
 // Dump csv to DB
 $('#processdata_id').on('click', function(){
     $.ajax({

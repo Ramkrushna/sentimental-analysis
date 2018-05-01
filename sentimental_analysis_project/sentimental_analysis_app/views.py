@@ -69,6 +69,20 @@ def get_most_re_tweeted_tweets(request):
     return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Showing Get the most re-tweeted tweets.</h2></center>"}), content_type="application/json")
 
 
+#Q3. Create stacked chart (Retweets, Total Tweets) showing “‘Hour of the Day Trends” TweetCount Vs Hour.
+def get_tweets_vs_retweet_hour_wise(request):
+    chartData = []
+    sql = "SELECT reply_to_sn, count(screen_name) as RepliesReceived FROM sentimental_analysis_app_demonitisationtweets WHERE reply_to_sn!='NA' GROUP BY reply_to_sn ORDER BY RepliesReceived DESC limit 10;"
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        sr_no = 1
+        for row in rows:
+            chartData.append({"id":sr_no,"user":row[0],"repliesReceived":str(row[1])})
+            sr_no+=1
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>7. Get Users whose tweets generated most replies.</h2></center>"}), content_type="application/json")
+
+
 # Q4. Get percentage of different type of emotions (Joy, Sad, Fear etc.)
 def get_percentages_of_different_emotions(request):
     total = get_total_of_db_records()
@@ -94,24 +108,29 @@ def get_tweet_counts_device_wise(request):
             chartData.append([row[0],row[1]])
     return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Showing Tweet counts Device wise (twitter for Android, twitter Web client etc.)</h2></center>"}), content_type="application/json")
 
+#Q6. Get most popular Users
 def get_most_popular_users_chart_data(request):
-    return HttpResponse(content=json.dumps({"Users":[
-    	{"id": 11,
-         "ScreenName": "Ram",
-         "ReTweets": "123",
-         "Tweets": "3"
-    	  },
-    	  {"id": 12,
-         "ScreenName": "Rahul",
-         "ReTweets": "122",
-         "Tweets": "3"
-    	  },
-    	  {"id": 10,
-         "ScreenName": "Ishar",
-         "ReTweets": "120",
-         "Tweets": "3"
-    	  },
-
-    	]}), content_type="application/json")
+    chartData = []
+    sql = "SELECT screen_name, sum(retweet_count) as reTweetCount, count(screen_name) as tweet FROM sentimental_analysis_app_demonitisationtweets GROUP BY screen_name ORDER BY sum(retweet_count) DESC limit 10;"
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        sr_no = 1
+        for row in rows:
+            chartData.append({"id":sr_no,"screenName":row[0],"retweetCount":str(row[1]),"tweetCount":str(row[2])})
+            sr_no+=1
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>6. Most Popular 10 Users</h2></center>"}), content_type="application/json")
 
 
+#Q7. Get Users whose tweets generated most replies.
+def get_users_with_most_replies(request):
+    chartData = []
+    sql = "SELECT reply_to_sn, count(screen_name) as RepliesReceived FROM sentimental_analysis_app_demonitisationtweets WHERE reply_to_sn!='NA' GROUP BY reply_to_sn ORDER BY RepliesReceived DESC limit 10;"
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        sr_no = 1
+        for row in rows:
+            chartData.append({"id":sr_no,"user":row[0],"repliesReceived":str(row[1])})
+            sr_no+=1
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>7. Get Users whose tweets generated most replies.</h2></center>"}), content_type="application/json")

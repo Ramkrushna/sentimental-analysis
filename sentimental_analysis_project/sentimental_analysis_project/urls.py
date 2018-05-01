@@ -13,6 +13,6 @@ urlpatterns = [
     url(r'^q2b/$', views.get_most_re_tweeted_tweets, name='Q2-b'),
     url(r'^q4/$', views.get_percentages_of_different_emotions, name='Q4'),
     url(r'^q5/$', views.get_tweet_counts_device_wise, name='Q5'),
-    url(r'^q6/$', views.get_percentages_of_different_sentiments, name='Q6'),
-    url(r'^q7/$', views.get_percentages_of_different_sentiments, name='Q7'),
+    url(r'^q6/$', views.get_most_popular_users_chart_data, name='Q6'),
+    url(r'^q7/$', views.get_users_with_most_replies, name='Q7'),
 ]

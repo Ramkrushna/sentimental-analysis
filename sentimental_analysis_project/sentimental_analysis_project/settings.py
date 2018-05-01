@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 NO_OF_LINES = 2000
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

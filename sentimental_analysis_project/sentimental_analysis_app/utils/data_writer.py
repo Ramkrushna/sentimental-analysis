@@ -88,7 +88,7 @@ def dump_csv_data_to_db():
     """
     """
     file_path = os.path.dirname((__file__))+"/../input_data/demonetization-tweets.csv"	
-    data = csv.DictReader(open(file_path))
+    data = csv.DictReader(open(file_path, encoding="utf8"))
     print ("loading csv to mysql")
     tweets = list(data)[:NO_OF_LINES]
     set_analyzed_sentiment_to_data_set(tweets)
