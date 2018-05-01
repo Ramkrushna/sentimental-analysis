@@ -62,7 +62,7 @@ def sql_batch_insert(data_set):
         												  is_retweet=tweet['isRetweet'],
         												  retweeted=tweet['retweeted'],
         												  sentiment_type = tweet['sentiment_type'],
-                                                          emotions = tweet['emotions'],
+                                                          emotions = tweet.get('emotions',"NULL"),
                                                           device_type = tweet['device_type'],
                                                           hour = tweet['hour'],
                                                           minute = tweet['minute']

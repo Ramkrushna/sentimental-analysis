@@ -45,16 +45,16 @@ border: 1px solid black;
       <ul class="nav navbar-nav">
       <li class="active"><a>Demonitization Sentiment And Time Analysis</a></li>
       </ul>
-
-      <button class="btn btn-success navbar-btn" id='processdata_id'>Click to process data</button>
+      &nbsp;&nbsp; <button class="btn btn-success navbar-btn" id='processdata_id'>Click to process data(One Time Process)</button>
     </div>
+<!--
     <ul class="nav navbar-nav">
       <li class="dropdown">
-        <a class="active" data-toggle="dropdown" >Display Charts <span class="caret"></span></a>
+        <a class="active" data-toggle="dropdown" >View Results <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li id="display-charts-q1"><a id='q2'>Q1: Percentage of tweets is negative, positive or neutral</a></li>
-          <li id="display-charts-q2"><a id='q2'>Q2: Most Famous Tweets</a></li>
-          <li id="display-charts-test"><a id='q2b'>Q2.b.: Most ReTweeted Tweets</a></li>
+          <li id="display-charts-q2"><a id='q2'>Q2.a: Most Famous Tweets</a></li>
+          <li id="display-charts-test"><a id='q2b'>Q2.b: Most ReTweeted Tweets</a></li>
           <li id="display-charts-q3"><a id='q2'>Q3: Hour of the Day Trends</a></li>
         <li id="display-charts-q4"><a id='q2'>Q4: Percentage of emotions Joy, Anger, Sadness, Surprise, Fear</a></li>
           <li id="display-charts-q5"><a id='q5'>Q5.Showing Tweet counts Device wise (twitter for Android, twitter Web client etc.)</a></li>
@@ -63,12 +63,35 @@ border: 1px solid black;
         </ul>
       </li>
     </ul>
+-->
     <ul class="nav navbar-nav navbar-right">
       <li class="active" ><a>Welcome {{ request.user.username }}</a><li>
       <li class="active" ><a href="/logout/"> Log Out</a></li>
     </ul>
   </div>
 </nav>
+<div class="btn-group">
+        <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;     View Results&nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp;     <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li id="display-charts-q1"><a id='q2'>Q1: Percentage of tweets is negative, positive or neutral</a></li>
+          <li class="divider"></li>
+          <li id="display-charts-q2"><a id='q2'>Q2.a: Most Famous Tweets</a></li>
+          <li class="divider"></li>
+          <li id="display-charts-test"><a id='q2b'>Q2.b: Most ReTweeted Tweets</a></li>
+          <li class="divider"></li>
+          <li id="display-charts-q3"><a id='q2'>Q3: Hour of the Day Trends</a></li>
+          <li class="divider"></li>
+          <li id="display-charts-q4"><a id='q2'>Q4: Percentage of emotions Joy, Anger, Sadness, Surprise, Fear</a></li>
+          <li class="divider"></li>
+          <li id="display-charts-q5"><a id='q5'>Q5.Showing Tweet counts Device wise (twitter for Android, twitter Web client etc.)</a></li>
+          <li class="divider"></li>
+          <li id="display-charts-q6"><a id='q5'>Q6.Show Most Popular Users</a></li>
+          <li class="divider"></li>
+          <li id="display-charts-q7"><a id='q7'>Q7.Show Users Whose Tweets Got Most Replies</a></li>
+           
+        </ul>
+ </div>
+
 <div class="container">
   <div id="chartTitle"> </div>
 </div>

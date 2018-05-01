@@ -30,7 +30,7 @@ def process_data(request):
     # dump csv data to sqlite DB
     dump_csv_data_to_db()
 
-    return HttpResponse(content="Successfully processed CSV data...!!!")
+    return HttpResponse(content=json.dumps({"message":"Successfully processed CSV data...!!!"}),content_type="application/json")
 
 # Q1. Get percentage of different type of sentiment (Positive, Negative, Neutral)
 def get_percentages_of_different_sentiments(request):
@@ -93,14 +93,14 @@ def get_tweets_vs_retweet_hour_wise(request):
 
     chartData = [total_tweets, re_tweets]
 
-    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>3. Hour of the Day Trends</h2></center>"}), content_type="application/json")
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Hour of the Day Trends</h2></center>"}), content_type="application/json")
 
 
 # Q4. Get percentage of different type of emotions (Joy, Sad, Fear etc.)
 def get_percentages_of_different_emotions(request):
     total = get_total_of_db_records()
     chartData = []
-    sql = "SELECT emotions, count(*) as total FROM sentimental_analysis_app_demonitisationtweets GROUP BY emotions ORDER BY emotions ASC;"
+    sql = "SELECT emotions, count(*) as total FROM sentimental_analysis_app_demonitisationtweets WHERE emotions!='NULL' GROUP BY emotions ORDER BY emotions ASC;"
     with closing(connection.cursor()) as cursor:
         cursor.execute(sql)
         rows = cursor.fetchall()

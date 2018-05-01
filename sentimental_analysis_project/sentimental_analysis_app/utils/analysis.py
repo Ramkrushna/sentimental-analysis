@@ -10,7 +10,7 @@ import seaborn as sns
 from indicoio import emotion, sentiment
 import indicoio
 
-indicoio.config.api_key = '9104521db285d5c18e7b79d0b2b5e2e4'
+indicoio.config.api_key = 'd7bc6d0cbc1083b4e6d24070648f5313'
 
 
 data = read_csv_file()

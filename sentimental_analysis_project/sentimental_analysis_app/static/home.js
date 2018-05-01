@@ -311,6 +311,7 @@ $('#display-charts-q7').on('click', function(){
 
 // Dump csv to DB
 $('#processdata_id').on('click', function(){
+    if (confirm("This is a one time process to insert processed data into database, it will override data! are you sure?")){
     $.ajax({
             dataType: "json",
             type: "GET",
@@ -321,7 +322,7 @@ $('#processdata_id').on('click', function(){
                     alert(data.error);
                 } else {
                     console.log(data);
-                    alert("Successfully processed CSV data...!!!");
+                    alert(data.message);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown)
@@ -329,5 +330,7 @@ $('#processdata_id').on('click', function(){
               alert(errorThrown);
            }
         });
+    }
+    return false;
 });
 

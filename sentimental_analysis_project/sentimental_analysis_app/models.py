@@ -58,4 +58,4 @@ class DemonitisationTweets(models.Model):
     hour = models.IntegerField(null=True)
     minute = models.IntegerField(null=True)
     emotions = models.CharField(max_length=30, null=True)
-    device_type = models.CharField(max_length=30, null=True)
+    device_type = models.CharField(max_length=300, null=True)
