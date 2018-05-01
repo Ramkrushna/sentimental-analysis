@@ -71,16 +71,29 @@ def get_most_re_tweeted_tweets(request):
 
 #Q3. Create stacked chart (Retweets, Total Tweets) showing “‘Hour of the Day Trends” TweetCount Vs Hour.
 def get_tweets_vs_retweet_hour_wise(request):
-    chartData = []
-    sql = "SELECT reply_to_sn, count(screen_name) as RepliesReceived FROM sentimental_analysis_app_demonitisationtweets WHERE reply_to_sn!='NA' GROUP BY reply_to_sn ORDER BY RepliesReceived DESC limit 10;"
+    # Get Total no of Tweets hour wise
+    total_tweets = ['TotalTweets']
+    initial_values = [0 for i in range(0,24)]
+    total_tweets.extend(initial_values)
+    total_tweets_sql = "SELECT hour, count(text) as TotalTweets FROM sentimental_analysis_app_demonitisationtweets GROUP BY hour ORDER BY hour ASC;"
     with closing(connection.cursor()) as cursor:
-        cursor.execute(sql)
+        cursor.execute(total_tweets_sql)
         rows = cursor.fetchall()
-        sr_no = 1
         for row in rows:
-            chartData.append({"id":sr_no,"user":row[0],"repliesReceived":str(row[1])})
-            sr_no+=1
-    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>7. Get Users whose tweets generated most replies.</h2></center>"}), content_type="application/json")
+            total_tweets[row[0]+1] = row[1]
+    # Get count of reTweets hour wise
+    re_tweets = ['Retweets']
+    re_tweets.extend(initial_values)
+    re_tweets_sql = "SELECT hour, count(text) as ReTweets FROM sentimental_analysis_app_demonitisationtweets WHERE is_retweet=True group by hour ORDER BY hour ASC;"
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(re_tweets_sql)
+        rows = cursor.fetchall()
+        for row in rows:
+            re_tweets[row[0]+1] =row[1]
+
+    chartData = [total_tweets, re_tweets]
+
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>3. Hour of the Day Trends</h2></center>"}), content_type="application/json")
 
 
 # Q4. Get percentage of different type of emotions (Joy, Sad, Fear etc.)
@@ -100,7 +113,7 @@ def get_percentages_of_different_emotions(request):
 # Q5. Create Bar chart showing Tweet counts Device wise (twitter for Android, twitter Web client, Twitter for iPhone, Facebook, Twitter for iPad, etc.)
 def get_tweet_counts_device_wise(request):
     chartData = []
-    sql = "SELECT device_type, count(*) as total FROM sentimental_analysis_app_demonitisationtweets GROUP BY device_type ORDER BY total DESC;"
+    sql = "SELECT device_type, count(*) as total FROM sentimental_analysis_app_demonitisationtweets GROUP BY device_type ORDER BY total DESC limit 10;"
     with closing(connection.cursor()) as cursor:
         cursor.execute(sql)
         rows = cursor.fetchall()

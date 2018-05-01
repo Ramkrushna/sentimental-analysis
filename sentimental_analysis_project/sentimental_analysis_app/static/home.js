@@ -31,6 +31,22 @@ function renderBarChart(chartData) {
     });
 }
 
+function renderStackChart(chartData) {
+    var chart = c3.generate({
+    data: {
+        columns: chartData,
+        types: {
+            data1: 'area-spline',
+            data2: 'area-spline'
+            // 'line', 'spline', 'step', 'area', 'area-step' are also available to stack
+        },
+        groups: [['data1', 'data2']]
+    }
+    });
+}
+
+
+
 // Show chart for Q1
     $('#display-charts-q1').on('click', function(){
     $.ajax({
@@ -124,6 +140,35 @@ $('#display-charts-test').on('click', function(){
                     });
                    
                    $('#retweeted-tweets').append(trHTML);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
+
+// Show chart for Q3
+    $('#display-charts-q3').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/q3/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
+                    console.log(data);
+                    chartData = data.chartData;
+                    chartTitle = data.chartTitle;
+                    $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
+                    renderStackChart(chartData);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown)
