@@ -1,5 +1,4 @@
 from sentimental_analysis_app.models import DemonitisationTweets
-from sentimental_analysis_project.settings import NO_OF_LINES
 from sentimental_analysis_app.utils.analysis import get_analized_sentiments,\
 get_emotion_to_x_map,get_tweets_device_dict
 import os
@@ -90,7 +89,7 @@ def dump_csv_data_to_db():
     file_path = os.path.dirname((__file__))+"/../input_data/demonetization-tweets.csv"	
     data = csv.DictReader(open(file_path, encoding="utf8"))
     print ("loading csv to mysql")
-    tweets = list(data)[:NO_OF_LINES]
+    tweets = list(data)
     set_analyzed_sentiment_to_data_set(tweets)
     clean_existing_table_data()
     sql_batch_insert(tweets)

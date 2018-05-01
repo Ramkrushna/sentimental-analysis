@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-NO_OF_LINES = 2000
+# Note: To get the emotions out of tweets we are using paid service so limiting it to process all the records.
+NO_OF_REOCRDS_TO_PROCESS = 5000
 
 import os
 

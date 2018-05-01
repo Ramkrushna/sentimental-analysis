@@ -2,7 +2,7 @@ import nltk
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sentimental_analysis_app.utils.data_reader import read_csv_file
-from sentimental_analysis_project.settings import NO_OF_LINES
+from sentimental_analysis_project.settings import NO_OF_REOCRDS_TO_PROCESS
 from nltk.sentiment.util import *
 from nltk import tokenize
 import seaborn as sns
@@ -90,7 +90,8 @@ def process_batch(batch, n=1):
 
 #Q4. Sentimental analysis of sowing percentage of emotions (joy, sad, fear etc.)
 def get_emotion_to_x_map():
-    tweets = data['text'][:NO_OF_LINES]
+    # Note: To get the emotions out of tweets we are using paid service so limiting it to process all the records.
+    tweets = data['text'][:NO_OF_REOCRDS_TO_PROCESS]
     X_to_text_map = {x:tweet for x,tweet in tweets.to_dict().items()}
 
     text_list = list(X_to_text_map.values())
