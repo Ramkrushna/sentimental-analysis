@@ -37,7 +37,7 @@ class DemonitisationTweets(models.Model):
     tweet_id = models.CharField(max_length=30,null=True)
     text = models.CharField(max_length=700,null=True)
     favorited = models.CharField(max_length=30,null=True)
-    favorite_count = models.CharField(max_length=30,null=True) # likes
+    favorite_count = models.IntegerField(null=True) # likes
     reply_to_sn = models.CharField(max_length=30,null=True)
     created = models.CharField(max_length=30,null=True)# TODO use date time with DD-MM-YYYY hh:mm
     truncated = models.CharField(max_length=30,null=True)
@@ -45,7 +45,7 @@ class DemonitisationTweets(models.Model):
     reply_to_uid = models.CharField(max_length=30,null=True)
     status_source = models.CharField(max_length=150,null=True)
     screen_name = models.CharField(max_length=30,null=True)
-    retweet_count = models.CharField(max_length=30,null=True)
+    retweet_count = models.IntegerField(null=True)
     is_retweet = models.CharField(max_length=30,null=True)
     retweeted = models.CharField(max_length=30,null=True)
     # Newly added columns
@@ -55,7 +55,7 @@ class DemonitisationTweets(models.Model):
     sentiment_pos = models.CharField(max_length=30, null=True) # it should support 4 decimal places
     sentiment_type = models.CharField(max_length=20, null=True)
     date = models.CharField(max_length=30, null=True)
-    hour = models.CharField(null=True,max_length=30)
-    minute = models.CharField(null=True,max_length=30)
+    hour = models.IntegerField(null=True)
+    minute = models.IntegerField(null=True)
     emotions = models.CharField(max_length=30, null=True)
     device_type = models.CharField(max_length=30, null=True)

@@ -1,5 +1,7 @@
 from sentimental_analysis_app.models import DemonitisationTweets
-from sentimental_analysis_app.utils.analysis import get_analized_sentiments,get_emotion_to_x_map
+from sentimental_analysis_project.settings import NO_OF_LINES
+from sentimental_analysis_app.utils.analysis import get_analized_sentiments,\
+get_emotion_to_x_map,get_tweets_device_dict
 import os
 import csv
 from datetime import datetime
@@ -7,12 +9,13 @@ from django.db import connection
 from contextlib import closing
 from django.db import connection
 from django.utils import timezone
-
+import datetime
 
 
 def set_analyzed_sentiment_to_data_set(data_set):
     analyzed_data = get_analized_sentiments()
     emotion_map = get_emotion_to_x_map()
+    device_type_map = get_tweets_device_dict()
     for ds in data_set:
         # Set sentiment type to dataset
         if int(ds['X']) in analyzed_data['sentiment_type']:
@@ -20,6 +23,15 @@ def set_analyzed_sentiment_to_data_set(data_set):
         # Set sentiment emotion to dataset
         if int(ds['X']) in emotion_map:
             ds['emotions'] = emotion_map.get(int(ds['X']))
+        # Set sentiment of device type to dataset
+        if int(ds['X']) in device_type_map:
+            ds['device_type'] = device_type_map.get(int(ds['X']))
+        # Split date into hour and minutes.
+        f = "%d/%m/%y %H:%M"
+        d = datetime.datetime.strptime(ds['created'], f)
+        ds['hour'] = d.hour
+        ds['minute'] = d.minute
+
 
     return data_set
 
@@ -31,13 +43,13 @@ def clean_existing_table_data():
 
 def sql_batch_insert(data_set):
     connection.close()
-    sql = 'INSERT INTO sentimental_analysis_app_demonitisationtweets (x,tweet_id,text,favorited,favorite_count,reply_to_sn,created,truncated,reply_to_sid,reply_to_uid,status_source,screen_name,retweet_count,is_retweet,retweeted,sentiment_type,emotions) VALUES {}'
+    sql = 'INSERT INTO sentimental_analysis_app_demonitisationtweets (x,tweet_id,text,favorited,favorite_count,reply_to_sn,created,truncated,reply_to_sid,reply_to_uid,status_source,screen_name,retweet_count,is_retweet,retweeted,sentiment_type,emotions,device_type,hour,minute) VALUES {}'
 
     params = []
    
     for tweet in data_set:
         try:
-            values = '({X},{id},"{text}",{favorited},{favorite_count},"{reply_to_sn}","{created}",{truncated},"{reply_to_sid}","{reply_to_uid}","{status_source}","{screen_name}","{retweet_count}",{is_retweet},{retweeted},"{sentiment_type}","{emotions}")'.format(X=tweet['X'], id=tweet['id'],
+            values = '({X},{id},"{text}",{favorited},{favorite_count},"{reply_to_sn}","{created}",{truncated},"{reply_to_sid}","{reply_to_uid}","{status_source}","{screen_name}","{retweet_count}",{is_retweet},{retweeted},"{sentiment_type}","{emotions}","{device_type}",{hour},{minute})'.format(X=tweet['X'], id=tweet['id'],
         	                                              text=tweet['text'].replace('"',"'"),favorited=tweet['favorited'],
         	                                              favorite_count=tweet['favoriteCount'],
         												  reply_to_sn=tweet['replyToSN'],
@@ -51,7 +63,10 @@ def sql_batch_insert(data_set):
         												  is_retweet=tweet['isRetweet'],
         												  retweeted=tweet['retweeted'],
         												  sentiment_type = tweet['sentiment_type'],
-                                                          emotions = tweet['emotions']
+                                                          emotions = tweet['emotions'],
+                                                          device_type = tweet['device_type'],
+                                                          hour = tweet['hour'],
+                                                          minute = tweet['minute']
         												  ) 
             params.append(values)
         except Exception as err:
@@ -59,7 +74,6 @@ def sql_batch_insert(data_set):
     with closing(connection.cursor()) as cursor:
         values_section = ",".join(params)
         sql = sql.format(values_section)
-        print (sql)
         cursor.execute(sql)
 
 
@@ -76,7 +90,7 @@ def dump_csv_data_to_db():
     file_path = os.path.dirname((__file__))+"/../input_data/demonetization-tweets.csv"	
     data = csv.DictReader(open(file_path))
     print ("loading csv to mysql")
-    tweets = list(data)[:1000]
+    tweets = list(data)[:NO_OF_LINES]
     set_analyzed_sentiment_to_data_set(tweets)
     clean_existing_table_data()
     sql_batch_insert(tweets)

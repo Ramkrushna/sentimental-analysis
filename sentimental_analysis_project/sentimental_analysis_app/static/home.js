@@ -1,5 +1,4 @@
  function renderPieChart(chartData){
-        alert(chartData); 
         var chart = c3.generate({
         data: {
         // iris data from R
@@ -17,7 +16,6 @@
     }
 
 function renderBarChart(chartData) {
-    alert(chartData);
     var chart = c3.generate({
     data: {
         columns: chartData,
@@ -44,13 +42,88 @@ function renderBarChart(chartData) {
                 if(data.error) {
                     alert(data.error);
                 } else {
-
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
                     console.log(data);
                     chartData = data.chartData;
                     chartTitle = data.chartTitle;
-                    jQuery('#chartTitle div').html('');
+                    
                     $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
                     renderPieChart(chartData);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
+// Q2.most popular tweets.
+$('#display-charts-q2').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/q2/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
+                    var chartData = data.chartData;
+                    var chartTitle = data.chartTitle;
+                    
+                    var trHTML = '';
+                    var tblHTML =  "<table id='famous-tweets' border='1'><tr><th>ID </th><th>ScreenName </th><th>Text </th><th>Famous Count </th></tr></table>";
+                   
+                   $('#charts-display').append(tblHTML);
+
+                    $.each(chartData, function (i, item) {
+                    trHTML += '<tr><td>' + chartData[i].id + '</td><td>' + chartData[i].screenName + '</td><td>' + chartData[i].text + '</td><td>' + chartData[i].famousCount + '</td></tr>';
+                    });
+                   
+                   $('#famous-tweets').append(trHTML);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
+
+// Q2.b.most popular re-tweeted tweets.
+$('#display-charts-test').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/q2b/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
+                    var chartData = data.chartData;
+                    var chartTitle = data.chartTitle;
+                    
+                    var trHTML = '';
+                    var tblHTML =  "<table id='retweeted-tweets' border='1'><tr><th>ID </th><th>ScreenName </th><th>Text </th><th>ReTweeted Count </th></tr></table>";
+                   
+                   $('#charts-display').append(tblHTML);
+
+                    $.each(chartData, function (i, item) {
+                    trHTML += '<tr><td>' + chartData[i].id + '</td><td>' + chartData[i].screenName + '</td><td>' + chartData[i].text + '</td><td>' + chartData[i].retweetCount + '</td></tr>';
+                    });
+                   
+                   $('#retweeted-tweets').append(trHTML);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown)
@@ -71,11 +144,12 @@ function renderBarChart(chartData) {
                 if(data.error) {
                     alert(data.error);
                 } else {
-                    alert(data.chartData);
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
                     console.log(data);
                     chartData = data.chartData;
                     chartTitle = data.chartTitle;
-                    jQuery('#chartTitle div').html('');
                     $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
                     renderBarChart(chartData);
                 }
@@ -86,3 +160,56 @@ function renderBarChart(chartData) {
            }
         });
 });
+
+
+// Show chart for Q5
+    $('#display-charts-q5').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/q5/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    jQuery('#chartTitle').empty();
+                    jQuery('#charts-display').empty();;
+                    jQuery('#chart').empty();
+                    console.log(data);
+                    chartData = data.chartData;
+                    chartTitle = data.chartTitle;
+                    $('<div class=divText>' + chartTitle + '</div>').appendTo('#chartTitle');
+                    renderBarChart(chartData);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+
+
+// Dump csv to DB
+$('#processdata_id').on('click', function(){
+    $.ajax({
+            dataType: "json",
+            type: "GET",
+            url: '/processdata/',
+            success: function(data){
+            console.log('test');
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    console.log(data);
+                    alert("Successfully processed CSV data...!!!");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+          {
+              alert(errorThrown);
+           }
+        });
+});
+

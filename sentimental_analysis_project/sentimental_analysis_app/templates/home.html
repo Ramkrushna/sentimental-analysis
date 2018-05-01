@@ -42,21 +42,28 @@ border: 1px solid black;
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand">Demonitization Sentiment And Time Analysis</a>
+      <ul class="nav navbar-nav">
+      <li class="active"><a>Demonitization Sentiment And Time Analysis</a></li>
+      </ul>
+
+      <button class="btn btn-success navbar-btn" id='processdata_id'>Click to process data</button>
     </div>
     <ul class="nav navbar-nav">
       <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" >Display Charts <span class="caret"></span></a>
+        <a class="active" data-toggle="dropdown" >Display Charts <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li id="display-charts-q1"><a id='q2'>Q1: Percentage of tweets is negative, positive or neutral</a></li>
-          <li id="display-charts-q4"><a id='q2'>Q1: Percentage of emotions Joy, Anger, Sadness, Surprise, Fear</a></li>
+          <li id="display-charts-q2"><a id='q2'>Q2: Most Famous Tweets</a></li>
+          <li id="display-charts-test"><a id='q2b'>Q2.b.: Most ReTweeted Tweets</a></li>
+          <li id="display-charts-q5"><a id='q5'>Q5.Showing Tweet counts Device wise (twitter for Android, twitter Web client etc.)</a></li>
+        <li id="display-charts-q4"><a id='q2'>Q4: Percentage of emotions Joy, Anger, Sadness, Surprise, Fear</a></li>
 
         </ul>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a heref="#">Welcome {{ request.user.username }}</a><li>
-      <li><a href="/logout/"> Log Out</a></li>
+      <li class="active" ><a>Welcome {{ request.user.username }}</a><li>
+      <li class="active" ><a href="/logout/"> Log Out</a></li>
     </ul>
   </div>
 </nav>

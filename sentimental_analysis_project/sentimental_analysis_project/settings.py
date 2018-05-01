@@ -10,12 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+NO_OF_LINES = 2000
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-print ("**********************8")
+
 print (BASE_DIR)
 
 
@@ -28,7 +29,7 @@ SECRET_KEY = 'z8$*+ed33^9y^zfa2*w^*v27@4pv7mtr)&r_zcm5dmd**j4qjh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 LOGIN_URL = ''
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 APPEND_SLASH = False
 
 # Application definition

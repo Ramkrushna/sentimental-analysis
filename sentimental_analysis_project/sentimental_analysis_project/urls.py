@@ -9,10 +9,10 @@ urlpatterns = [
     url(r'^processdata/$', views.process_data, name='processdata'),
     url(r'^admin/', admin.site.urls),
     url(r'^q1/$', views.get_percentages_of_different_sentiments, name='Q1'),
-    url(r'^q2/$', views.get_percentages_of_different_sentiments, name='Q2'),
-    url(r'^q3/$', views.get_percentages_of_different_sentiments, name='Q3'),
+    url(r'^q2/$', views.get_most_famous_tweets, name='Q2'),
+    url(r'^q2b/$', views.get_most_re_tweeted_tweets, name='Q2-b'),
     url(r'^q4/$', views.get_percentages_of_different_emotions, name='Q4'),
-    url(r'^q5/$', views.get_percentages_of_different_sentiments, name='Q5'),
+    url(r'^q5/$', views.get_tweet_counts_device_wise, name='Q5'),
     url(r'^q6/$', views.get_percentages_of_different_sentiments, name='Q6'),
     url(r'^q7/$', views.get_percentages_of_different_sentiments, name='Q7'),
 ]
