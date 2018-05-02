@@ -94,7 +94,7 @@ $('#display-charts-q2').on('click', function(){
                     var chartTitle = data.chartTitle;
                     
                     var trHTML = '';
-                    var tblHTML =  "<table id='famous-tweets' border='1'><tr><th>ID </th><th>ScreenName </th><th>Text </th><th>Famous Count </th></tr></table>";
+                    var tblHTML =  "<br><table id='famous-tweets' class='table table-bordered table-hover'><tr><th>ID </th><th>ScreenName </th><th>Text </th><th>Famous Count </th></tr></table>";
                    
                    $('#charts-display').append(tblHTML);
 
@@ -131,7 +131,7 @@ $('#display-charts-test').on('click', function(){
                     var chartTitle = data.chartTitle;
                     
                     var trHTML = '';
-                    var tblHTML =  "<table id='retweeted-tweets' border='1'><tr><th>ID </th><th>ScreenName </th><th>Text </th><th>ReTweeted Count </th></tr></table>";
+                    var tblHTML =  "<br><table id='retweeted-tweets' class='table table-bordered table-hover'><tr><th>ID </th><th>ScreenName </th><th>Text </th><th>ReTweeted Count </th></tr></table>";
                    
                    $('#charts-display').append(tblHTML);
 
@@ -254,7 +254,7 @@ $('#display-charts-q6').on('click', function(){
                     var chartTitle = data.chartTitle;
                     
                     var trHTML = '';
-                    var tblHTML =  "<center><table id='famous-tweets' border='1'><tr><th>ID </th><th> ScreenName </th><th> ReTweet </th><th> Tweet </th></tr></table><center>";
+                    var tblHTML =  "<br><center><table id='famous-tweets' class='table table-bordered table-hover'><tr><th>ID </th><th> ScreenName </th><th> ReTweet </th><th> Tweet </th></tr></table><center>";
                    
                    $('#charts-display').append(tblHTML);
 
@@ -291,7 +291,7 @@ $('#display-charts-q7').on('click', function(){
                     var chartTitle = data.chartTitle;
                     
                     var trHTML = '';
-                    var tblHTML =  "<center><table id='famous-tweets' border='1'><tr><th>ID </th><th> User </th><th> RepliesReceived </th></tr></table><center>";
+                    var tblHTML =  "<br><center><table id='famous-tweets' class='table table-bordered table-hover'><tr><th>ID </th><th> User </th><th> RepliesReceived </th></tr></table><center>";
                    
                    $('#charts-display').append(tblHTML);
 

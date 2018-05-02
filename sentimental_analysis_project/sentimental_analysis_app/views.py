@@ -107,7 +107,7 @@ def get_percentages_of_different_emotions(request):
         for row in rows:
             percentage = round((row[1]/total)*100,2)
             chartData.append([row[0],percentage])
-    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Showing Percentage Of Emotions (trust, disgust, surprise, sadness, joy, fear, anger)</h2></center>"}), content_type="application/json")
+    return HttpResponse(content=json.dumps({'chartData':chartData, 'chartTitle': "<center><h2>Percentage of emotions (Note: Currently processing only 5000 records because we are using paid service)</h2></center>"}), content_type="application/json")
 
 
 # Q5. Create Bar chart showing Tweet counts Device wise (twitter for Android, twitter Web client, Twitter for iPhone, Facebook, Twitter for iPad, etc.)
