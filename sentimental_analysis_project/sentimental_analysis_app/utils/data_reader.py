@@ -6,6 +6,8 @@ from nltk import tokenize
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from django.db import connection
+from contextlib import closing
 from nltk import pos_tag
 import numpy as np
 import pandas as pd
@@ -36,4 +38,23 @@ def read_csv_file():
 		return tweets
 	except Exception as error:
 		logger.error("Error occurred while reading input file: {}".format(error))
+
+def check_emotions_in_db():
+    sql = "SELECT count(*) as total FROM sentimental_analysis_app_emotions;"
+    total = 0
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        rows = cursor.fetchone()
+        total = rows[0]
+    return total
+
+def get_emotions_to_x_map_from_db():
+    sql = "SELECT x, emotions FROM sentimental_analysis_app_emotions;"
+    emotion_map = {}
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        for row in rows:
+            emotion_map.update({row[0]: row[1]})
+    return emotion_map
 

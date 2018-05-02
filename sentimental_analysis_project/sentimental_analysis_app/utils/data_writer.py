@@ -1,6 +1,7 @@
 from sentimental_analysis_app.models import DemonitisationTweets
 from sentimental_analysis_app.utils.analysis import get_analized_sentiments,\
 get_emotion_to_x_map,get_tweets_device_dict
+from sentimental_analysis_app.utils.data_reader import check_emotions_in_db, get_emotions_to_x_map_from_db
 import os
 import csv
 from datetime import datetime
@@ -11,9 +12,35 @@ from django.utils import timezone
 import datetime
 
 
+
+def write_emotions_to_db(emotion_map):
+    connection.close()
+    sql = 'INSERT INTO sentimental_analysis_app_emotions (x,emotions) VALUES {}'
+
+    params = []
+
+    for key, val in emotion_map.items():
+        try:
+            values = '({x},"{emotions}")'.format(x=key, emotions=val)
+            params.append(values)
+        except Exception as err:
+            pass
+    with closing(connection.cursor()) as cursor:
+        values_section = ",".join(params)
+        sql = sql.format(values_section)
+        cursor.execute(sql)
+
+
 def set_analyzed_sentiment_to_data_set(data_set):
     analyzed_data = get_analized_sentiments()
-    emotion_map = get_emotion_to_x_map()
+    # Check if tweets are already processed for emotions.
+    if check_emotions_in_db():
+        print ("Getting the emotions from DB...")
+        emotion_map = get_emotions_to_x_map_from_db()
+    else:
+        print ("Getting it from emotions API")
+        emotion_map = get_emotion_to_x_map()
+        write_emotions_to_db(emotion_map)
     device_type_map = get_tweets_device_dict()
     for ds in data_set:
         # Set sentiment type to dataset
